@@ -22,11 +22,13 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <string.h>
+#include <unistd.h>
 
+#define URL_MAX_LENGTH 64
 
 typedef struct
 {
-	char*		address;
+	char		address[URL_MAX_LENGTH];
 	BIO*		outbio;
 	X509*		cert;
 	X509_NAME*	certname;
@@ -40,6 +42,6 @@ int init_connection(SSL_CONNECTION* conn);
 int ssl_init(BIO** outbio);
 int create_ssl_socket(char url_str[], BIO *out);
 void free_ssl_connection(SSL_CONNECTION* conn);
-int write_to_ssl_socket(SSL_CONNECTION* conn, const void* data, int size, void* outbuff, int buffsize);
+int write_to_ssl_socket(SSL_CONNECTION* conn, const void* data, size_t size, void* outbuff, size_t buffsize);
 
 #endif /* UTILS_SSL_CONNECT_H_ */
