@@ -25,10 +25,10 @@ const char* GET_REQUEST =
  * POST Request Template
  */
 const char* POST_REQUEST =
-		"POST %s HTTP/1.1\r\n"
+		"POST %s? HTTP/1.1\r\n"
 		"Host: %s\r\n"
 		"Content-Type: %s\r\n"
-		"Content-Length: %d\r\n"
+		"Content-Length: %d\r\n\r\n"
 		"%s\r\n";
 
 
