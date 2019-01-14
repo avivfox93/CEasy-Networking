@@ -22,6 +22,10 @@ int json_add_string_array(JSON* json, const char* key, const char** values, size
 
 int json_add_int_array(JSON* json, const char* key, const int* values, size_t num);
 
+char* json_get_string(JSON* json, const char* key);
+
+int* json_get_int(JSON* json, const char* key);
+
 char* json_to_string(JSON* json);
 
 void json_free(JSON* json);
