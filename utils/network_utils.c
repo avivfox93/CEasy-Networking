@@ -7,10 +7,6 @@
 
 #include "network_utils.h"
 
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
-
 /*
  * GET Request Template
  */
@@ -63,3 +59,5 @@ const char* get_content_type_string(Content_Type type)
 		return "text/plain";
 	}
 }
+
+

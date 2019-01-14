@@ -67,17 +67,19 @@
                                     								
                                 </option>
                                 								
+                                <option id="gnu.c.compiler.option.pthread.1384895196" name="Support for pthread (-pthread)" superClass="gnu.c.compiler.option.pthread" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+                                								
                                 <inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.270006345" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
                                 							
                             </tool>
                             							
                             <tool id="cdt.managedbuild.tool.gnu.c.linker.exe.debug.570960409" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.debug">
                                 								
-                                <option id="gnu.c.link.option.ldflags.207287194" name="Linker flags" superClass="gnu.c.link.option.ldflags" useByScannerDiscovery="false" value="-lssl -lcrypto   " valueType="string"/>
+                                <option id="gnu.c.link.option.ldflags.207287194" name="Linker flags" superClass="gnu.c.link.option.ldflags" useByScannerDiscovery="false" value="-lssl -lcrypto   -pthread" valueType="string"/>
                                 								
                                 <option id="gnu.c.link.option.shared.1658066022" name="Shared (-shared)" superClass="gnu.c.link.option.shared" useByScannerDiscovery="false" value="false" valueType="boolean"/>
                                 								
-                                <option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.c.link.option.libs.73718332" superClass="gnu.c.link.option.libs" useByScannerDiscovery="false" valueType="libs">
+                                <option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.c.link.option.libs.73718332" name="Libraries (-l)" superClass="gnu.c.link.option.libs" useByScannerDiscovery="false" valueType="libs">
                                     									
                                     <listOptionValue builtIn="false" value="ssl"/>
                                     									

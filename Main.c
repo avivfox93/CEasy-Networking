@@ -16,11 +16,14 @@
 #include "utils/network_utils.h"
 #include "utils/ssl_connect.h"
 #include "utils/json.h"
+#include "utils/restful_api.h"
 
 #define ADDRESS "postman-echo.com"
 
 int main()
 {
+	SERVER server;
+	const char* walla[] = {"ehad","shtaim","shalosh"};
 	JSON* json;
 	int len;
 	char* message;
@@ -32,6 +35,7 @@ int main()
 	json = calloc(1,sizeof(JSON));
 	json_add_string(json,"stam","String");
 	json_add_int(json,"justAnum",55);
+	json_add_string_array(json,"Sarray",walla,3);
 
 	char* str = json_to_string(json);
 	printf("JSON: %d\n%s",json->values,str);
@@ -56,5 +60,11 @@ int main()
 	free(str);
 	json_free(json);
 	free_ssl_connection(ssl);
+
+
+	printf("\nserver: %d\n",server_init(&server,3322));
+	server_listen(&server,5);
+	while(getchar() != 'e');
+	server_free(&server);
 	return 0;
 }

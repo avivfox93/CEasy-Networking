@@ -22,17 +22,24 @@ JSON* json_init()
 	return res;
 }
 
-int json_add_int(JSON* json, const char* key, int value)
+int _json_data_allocation(JSON* json)
 {
-	char num[INTEGER_MAX_CHARS] = {0};
 	if(json->data == NULL)
 		json->data = calloc(1,sizeof(char*));
 	else
 		json->data = realloc(json->data,(json->values)*sizeof(char*));
 	if(json->data == NULL)
 		return -1;
+	return 1;
+}
+
+int json_add_int(JSON* json, const char* key, int value)
+{
+	char num[INTEGER_MAX_CHARS] = {0};
+	if(!_json_data_allocation(json))
+		return -1;
 	sprintf(num,"%d",value);
-	json->data[json->values] = calloc(1,strlen("\"\":") + strlen(key) + strlen(num));
+	json->data[json->values] = calloc(strlen("\"\":") + strlen(key) + strlen(num),1);
 	if(json->data[json->values] == NULL)
 			return -1;
 	sprintf(json->data[json->values++],"\"%s\":%d",key,value);
@@ -41,16 +48,54 @@ int json_add_int(JSON* json, const char* key, int value)
 
 int json_add_string(JSON* json, const char* key, const char* value)
 {
-	if(json->data == NULL)
-		json->data = calloc(1,sizeof(char*));
-	else
-		json->data = realloc(json->data,(json->values)*sizeof(char*));
-	if(json->data == NULL)
+	if(!_json_data_allocation(json))
 		return -1;
-	json->data[json->values] = calloc(1,strlen("\"\":\"\"") + strlen(key) + strlen(value));
+	json->data[json->values] = calloc(strlen("\"\":\"\"") + strlen(key) + strlen(value),1);
 	if(json->data[json->values] == NULL)
 		return -1;
 	sprintf(json->data[json->values++],"\"%s\":\"%s\"",key,value);
+	return 1;
+}
+
+int json_add_string_array(JSON* json, const char* key, const char** values, size_t num)
+{
+	int i;
+	if(!_json_data_allocation(json))
+		return -1;
+	json->data[json->values] = calloc(strlen("\"\":[]") + strlen(key),1);
+	if(json->data[json->values] == NULL) return -1;
+	sprintf(json->data[json->values],"\"%s\":[",key);
+	for(i = 0 ; i < num && values[i] != NULL; i++)
+	{
+		json->data[json->values] = realloc(json->data[json->values],strlen(json->data[json->values]) + strlen(values[i]) + strlen("\"\","));
+		if(json->data[json->values] == NULL)
+			return -1;
+		sprintf(json->data[json->values],"%s\"%s\",",json->data[json->values],values[i]);
+	}
+	json->data[json->values][strlen(json->data[json->values]) -1] = ']';
+	json->values++;
+	return 1;
+}
+
+int json_add_int_array(JSON* json, const char* key, const int* values, size_t num)
+{
+	int i;
+	char number[INTEGER_MAX_CHARS] = {0};
+	if(!_json_data_allocation(json))
+		return -1;
+	json->data[json->values] = calloc(strlen("\"\":[]") + strlen(key),1);
+	if(json->data[json->values] == NULL) return -1;
+	sprintf(json->data[json->values],"\"%s\":[",key);
+	for(i = 0 ; i < num ; i++)
+	{
+		sprintf(number,"%d",values[i]);
+		json->data[json->values] = realloc(json->data[json->values],strlen(json->data[json->values]) + strlen(number) + strlen(","));
+		if(json->data[json->values] == NULL)
+			return -1;
+		sprintf(json->data[json->values],"%s%s",json->data[json->values],number);
+	}
+	json->data[json->values][strlen(json->data[json->values] -1)] = ']';
+	json->values++;
 	return 1;
 }
 

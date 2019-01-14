@@ -8,6 +8,18 @@
 #ifndef UTILS_NETWORK_UTILS_H_
 #define UTILS_NETWORK_UTILS_H_
 
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+
+#include <sys/socket.h>
+#include <resolv.h>
+#include <netdb.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <string.h>
+#include <unistd.h>
+
 typedef enum
 {
 	application_x_www_form_urlencoded,
