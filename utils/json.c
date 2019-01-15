@@ -8,6 +8,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <inttypes.h>
+#include <ctype.h>
 
 #include "json.h"
 
@@ -119,24 +121,25 @@ char* json_get_string(JSON* json, const char* key)
 	return NULL;
 }
 
-int* json_get_int(JSON* json, const char* key)
+int json_get_int(JSON* json, const char* key, int* out)
 {
-	int i,j;
-	char *ch,*out;
+	int i;
+	uintmax_t res;
+	char *ch;
 	for(i = 0 ; i < json->values ; i++)
 	{
 		if(strstr(json->data[i],key) == json->data[i])
 		{
 			ch = strchr(json->data[i],':');
-			if(*(++ch) != '"')
-				return NULL;
-			for(j = 0 ; ch[j] != '"' ; j++);
-			out = calloc(j + 1,1);
-			memcpy(out,ch,j);
-			return out;
+			if(!isdigit(*(ch++)))
+				return -1;
+			res = strtoumax(ch,NULL,10);
+			if(out != NULL)
+				*out = (int)res;
+			return 1;
 		}
 	}
-	return NULL;
+	return -1;
 }
 
 char* json_to_string(JSON* json)

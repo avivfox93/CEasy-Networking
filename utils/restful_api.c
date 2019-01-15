@@ -114,31 +114,6 @@ request_type_t get_header_and_body(const char* buffer, int buffer_size, body_t* 
 	return type;
 }
 
-request_type_t get_request_type(const char* buffer)
-{
-	if(strstr(buffer,"PUSH") == buffer)
-		return PUSH;
-	else if(strstr(buffer,"POST") == buffer)
-		return POST;
-	else if(strstr(buffer,"GET") == buffer)
-		return GET;
-	else if(strstr(buffer,"PUT") == buffer)
-		return PUT;
-	else if(strstr(buffer,"DELETE") == buffer)
-		return DELETE_r;
-	else if(strstr(buffer,"HEAD") == buffer)
-		return HEAD;
-	else if(strstr(buffer,"CONNECT") == buffer)
-		return CONNECT;
-	else if(strstr(buffer,"OPTIONS") == buffer)
-		return OPTIONS;
-	else if(strstr(buffer,"TRACE") == buffer)
-		return TRACE;
-	else if(strstr(buffer,"PATCH") == buffer)
-		return PATCH;
-	return UNDEFINED;
-}
-
 char* get_param(const body_t* body, const char* key)
 {
 	return NULL;

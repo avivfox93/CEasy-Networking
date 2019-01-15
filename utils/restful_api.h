@@ -18,23 +18,9 @@
 #include <pthread.h>
 #include <stdlib.h>
 #include <sched.h>
+#include "network_utils.h"
 
 #define BUFFER_SIZE 2048
-
-typedef enum
-{
-	POST,
-	GET,
-	PUT,
-	PUSH,
-	DELETE_r,
-	HEAD,
-	CONNECT,
-	OPTIONS,
-	TRACE,
-	PATCH,
-	UNDEFINED
-}request_type_t;
 
 typedef struct
 {
@@ -42,12 +28,12 @@ typedef struct
 	int socket;
 }client_t;
 
-typedef struct
-{
-	const char** keys;
-	const char** values;
-	int num_of_values;
-}header_t;
+//typedef struct
+//{
+//	const char** keys;
+//	const char** values;
+//	int num_of_values;
+//}header_t;
 
 typedef struct
 {

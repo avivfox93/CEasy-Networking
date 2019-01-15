@@ -22,6 +22,9 @@
 
 int main()
 {
+	request_t request;
+	header_t header;
+
 	SERVER server;
 	const char* walla[] = {"ehad","shtaim","shalosh"};
 	JSON* json;
@@ -41,8 +44,26 @@ int main()
 	printf("JSON: %d\n%s",json->values,str);
 
 	init_connection(ssl);
+	memset(&request,0,sizeof(request_t));
+	memset(&header,0,sizeof(header_t));
 
-	message = get_request(ADDRESS,"/get?some=params","",text_plain);
+	request.header = &header;
+	request.host = ADDRESS;
+	request.type = POST;
+	request.path = "/post";
+	header.content_type = text_plain;
+	header.content = "some data";
+	add_param_to_header(&header,"Header","Param");
+
+	message = request_to_string(&request);
+	printf("\nwalla send:\n%s\n\n",message);
+
+	len = write_to_ssl_socket(ssl,message,strlen(message),buff,2048);
+	free(message);
+	printf("recieved %d: \n%s",len,buff);
+
+	memset(buff,0,2048);
+	message = get_request(ADDRESS,"/get?some=params","","Authorization : BEARER 12345678",text_plain);
 	printf("\nsending: \n%s\n\n",message);
 
 	len = write_to_ssl_socket(ssl,message,strlen(message),buff,2048);
@@ -50,7 +71,7 @@ int main()
 	printf("recieved %d: \n%s",len,buff);
 
 	memset(buff,0,2048);
-	message = post_request(ADDRESS,"/post",str,application_json);
+	message = post_request(ADDRESS,"/post",str,"Stam : Header",application_json);
 	printf("\nsending: \n%s\n\n",message);
 
 	len = write_to_ssl_socket(ssl,message,strlen(message),buff,2048);
